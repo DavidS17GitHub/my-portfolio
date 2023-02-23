@@ -13,19 +13,19 @@ jobs:
   print_text:
     runs-on: ubuntu-latest
     steps:
-      - name: Set the variables
-        env:
-          DEFAULT_MESSAGE: 'Periodically printing passages'
-        shell: bash
-        run: echo "MESSAGE=${{ github.event.inputs.text_to_print || env.DEFAULT_MESSAGE }}" >> $GITHUB_ENV
-
       #- name: Set the variables
       #  env:
-      #    DEFAULT_MESSAGE: 'Periodically printing passages' # here is the default message
-      #  shell: pwsh
-      #  run: |
-      #    $env:MESSAGE = "${{ github.event.inputs.text_to_print }}" -replace '^$', '${{ env.DEFAULT_MESSAGE }}'`
-      #    $env:MESSAGE | Set-Content -Path $env:GITHUB_ENV -Encoding utf8 -Append
+      #    DEFAULT_MESSAGE: 'Periodically printing passages'
+      #  shell: bash
+      #  run: echo "MESSAGE=${{ github.event.inputs.text_to_print || env.DEFAULT_MESSAGE }}" >> $GITHUB_ENV
+
+      - name: Set the variables
+        env:
+          DEFAULT_MESSAGE: 'Periodically printing passages' # here is the default message
+        shell: pwsh
+        run: |
+          $env:MESSAGE = "${{ github.event.inputs.text_to_print }}" -replace '^$', '${{ env.DEFAULT_MESSAGE }}'
+          $env:MESSAGE | Set-Content -Path $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Print some text
         shell: pwsh
