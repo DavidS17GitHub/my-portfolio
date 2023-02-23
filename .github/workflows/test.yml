@@ -13,8 +13,10 @@ jobs:
     name: Print the variable
     runs-on: ubuntu-latest
     env:
-      VARIABLE: ${{ github.event.inputs.VARIABLE || github.event.inputs.VARIABLE.default }}
+      VARIABLE: "default value"
     steps:
+      - name: Set variable if input is not empty
+        if: ${{ !isEmpty(inputs.VARIABLE) }}
+        run: echo "::set-env name=VARIABLE::${{ inputs.VARIABLE }}"
       - name: Print the variable
-        shell: pwsh
-        run: Write-Host $env:VARIABLE
+        run: Write-Host ${{ env.VARIABLE }}
