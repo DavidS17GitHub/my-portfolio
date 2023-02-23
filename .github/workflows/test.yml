@@ -1,0 +1,17 @@
+on:
+  workflow_dispatch:
+    inputs:
+      VARIABLE: 
+        default: "A variable"
+        description: This is the name of the variable
+        required: true
+        type: string
+  schedule:
+    - cron: '1/1 * * * *'
+jobs:
+  print-the-varaible:
+    name: Print the variable
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print the variable
+        run: echo ${{ inputs.VARIABLE }}
