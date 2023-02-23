@@ -17,8 +17,6 @@ on:
         description: This is the part of the database that will be snapshotted
         required: true
         type: string
-  schedule:
-    - cron: '*/5 * * * *'
 
 jobs:
   print_text:
