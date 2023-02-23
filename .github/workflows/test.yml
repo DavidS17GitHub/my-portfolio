@@ -12,12 +12,9 @@ jobs:
   print-the-varaible:
     name: Print the variable
     runs-on: ubuntu-latest
+    env:
+      VARIABLE: ${{ github.event.inputs.VARIABLE || github.event.inputs.VARIABLE.default }}
     steps:
       - name: Print the variable
         shell: pwsh
-        run: |
-          $variable = "${{ inputs.VARIABLE }}"
-          if ([string]::IsNullOrWhiteSpace($variable)) {
-            $variable = "${{ inputs.VARIABLE.default }}"
-          }
-          Write-Host $variable
+        run: Write-Host $env:VARIABLE
