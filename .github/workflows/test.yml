@@ -12,7 +12,11 @@ jobs:
   print-the-varaible:
     name: Print the variable
     runs-on: ubuntu-latest
+    env:
+      VARIABLE: ${{ inputs.VARIABLE }}
     steps:
       - name: Print the variable
         shell: pwsh
-        run: Write-Host "${{ inputs.VARIABLE }}"
+        run: |
+          Write-Host "$env:VARIABLE"
+          Write-Host "$($env:VARIABLE)"
