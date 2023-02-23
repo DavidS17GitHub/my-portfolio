@@ -1,22 +1,43 @@
 name: Print some text every 3rd minute
 on:
-  workflow_dispatch: # adding the workflow_dispatch so it can be triggered manually
+  workflow_dispatch:
     inputs:
-      text_to_print:
-        description: 'What text do you want to print?'
+      DB_RDS_IDENTIFIER: 
+        default: "production-skywell-db"
+        description: This is the name of the Database that will be snapshotted
         required: true
-        default: 'Periodically printing passages'
+        type: string
+      DB_SNAPSHOT: 
+        default: "production-skywell-db-release"
+        description: This is the part of the identifier of the snapshot name that will be saved
+        required: true
+        type: string
+      ENVIRONMENT: 
+        default: "production"
+        description: This is the part of the database that will be snapshotted
+        required: true
+        type: string
+  schedule:
+    - cron: '*/5 * * * *'
 
 jobs:
   print_text:
     runs-on: ubuntu-latest
     steps:
-      - name: Set the variables
+      - name: Set the variables #This step should set the variables for the scheduled job
         env:
-          DEFAULT_MESSAGE: 'Periodically printing passages'
+          DB_RDS_IDENTIFIER_DEFAULT: "production-skywell-db"
+          DB_SNAPSHOT_DEFAULT: "production-skywell-db-release"
+          ENVIRONMENT_DEFAULT: "production"
         shell: bash
-        run: echo "MESSAGE=${{ github.event.inputs.text_to_print || env.DEFAULT_MESSAGE }}" >> $GITHUB_ENV
+        run: |
+          echo "DB_RDS_IDENTIFIER=${{ github.event.inputs.DB_RDS_IDENTIFIER || env.DB_RDS_IDENTIFIER_DEFAULT }}" >> $GITHUB_ENV
+          echo "DB_SNAPSHOT=${{ github.event.inputs.DB_SNAPSHOT || env.DB_SNAPSHOT_DEFAULT }}" >> $GITHUB_ENV
+          echo "ENVIRONMENT=${{ github.event.inputs.ENVIRONMENT || env.ENVIRONMENT_DEFAULT }}" >> $GITHUB_ENV
 
       - name: Print some text
         shell: pwsh
-        run: Write-Host "$env:MESSAGE" # prints the environmental variable, MESSAGE
+        run: |
+          Write-Host "$env:DB_RDS_IDENTIFIER" # prints the environmental variable, MESSAGE
+          Write-Host "$env:DB_SNAPSHOT"
+          Write-Host "$env:ENVIRONMENT"
