@@ -7,7 +7,7 @@ on:
         required: true
         type: string
   schedule:
-    - cron: '1/1 * * * *'
+    - cron: '26 12 * * *'
 jobs:
   print-the-varaible:
     name: Print the variable
