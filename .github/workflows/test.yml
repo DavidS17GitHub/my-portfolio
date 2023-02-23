@@ -12,11 +12,12 @@ jobs:
   print-the-varaible:
     name: Print the variable
     runs-on: ubuntu-latest
-    env:
-      VARIABLE: ${{ inputs.VARIABLE }}
     steps:
       - name: Print the variable
         shell: pwsh
         run: |
-          Write-Host "$env:VARIABLE"
-          Write-Host "$($env:VARIABLE)"
+          $variable = "${{ inputs.VARIABLE }}"
+          if ([string]::IsNullOrWhiteSpace($variable)) {
+            $variable = "${{ inputs.VARIABLE.default }}"
+          }
+          Write-Host $variable
