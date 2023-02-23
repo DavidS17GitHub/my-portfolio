@@ -7,11 +7,12 @@ on:
         required: true
         type: string
   schedule:
-    - cron: '28 17 * * *'
+    - cron: '10 * * * *'
 jobs:
   print-the-varaible:
     name: Print the variable
     runs-on: ubuntu-latest
     steps:
       - name: Print the variable
-        run: echo ${{ inputs.VARIABLE }}
+        shell: pwsh
+        run: Write-Host "${{ inputs.VARIABLE }}"
